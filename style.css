@@ -1,6 +1,7 @@
 body{
     margin: 5px 0 0 0;
     background-color: black;
+    font-family: monospace;
 }
 #main{
     margin-left: auto;
