@@ -19,6 +19,7 @@ body{
     border: 10px solid grey;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
 .gridTile{
     box-sizing: border-box;
@@ -30,4 +31,20 @@ body{
 }
 .bike{
     position: absolute;
+    color: white;
+}
+.blueTrail{
+    background-color: lightskyblue;
+}
+.oranTtrail{
+    background-color: orange;
+}
+.trail{
+    width: 5px;
+    position: absolute;
+    height: 5px;
+}
+#blue{
+}
+#orange{
 }
