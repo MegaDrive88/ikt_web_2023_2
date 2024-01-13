@@ -34,7 +34,7 @@ body{
     color: white;
 }
 .blueTrail{
-    background-color: lightskyblue;
+    background-color: blue;
 }
 .oranTrail{
     background-color: orange;
@@ -44,8 +44,21 @@ body{
     position: absolute;
     height: 5px;
 }
-/*
+
 #blue{
+    background-image: url("blue_bike.png");
+    height: 50px;
+    width: 50px;
+    rotate: 90deg;
+    background-size: 50px;
+    transform: translate(calc(-50% + 2px), -4px); 
 }
+
 #orange{
-} */
+    background-image: url("orange_bike.png");
+    height: 50px;
+    width: 50px;
+    rotate: -90deg;
+    background-size: 50px;
+    transform: translate(calc(50% - 2px), -50px); 
+}

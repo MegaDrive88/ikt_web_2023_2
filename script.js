@@ -2,20 +2,21 @@ class Biker{
     constructor(color, htmlObj){
         this.color = color
         this.theBikeItself = htmlObj
-        this.theBikeItself.style.top = '0px'
+        this.theBikeItself.style.top = '267px'
         this.top = parseInt(this.theBikeItself.style.top.replace('px', ''))
         this.theBikeItself.style.left = '0px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
     }
     leaveMark(direction){
+        let d = new Direction()
+        d.getNums(direction)
         const div = document.createElement('div')
         div.className = this.color + 'Trail'
         div.classList.add("trail")
-        this.theBikeItself.style.top = this.top + 5 + 'px'
-
+        this.theBikeItself.style.top = this.top + 5*d.top + 'px'
+        this.theBikeItself.style.left = this.left + 5*d.left + 'px'
         this.top = parseInt(this.theBikeItself.style.top.replace('px', ''))
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
-
         div.style.top = this.top + 'px'
         div.style.left = this.left + 'px'
         GRID.appendChild(div)
@@ -52,13 +53,17 @@ class BlueBiker extends Biker{
         
     // } ez az override
     async Start(){
-        await player1.jump(1)
-        player1.turbo(1)
+        this.theBikeItself.style.left = '60px'
+        this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
+        // await player1.jump("left")
+        player1.turbo("right")
     }
 }
 class OrangeBiker extends Biker{
     async Start(){
-        player2.turbo(1)
+        this.theBikeItself.style.left = '460px'
+        this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
+        player2.turbo("left")
     }
 }
 class Game{
@@ -78,8 +83,38 @@ class Game{
         player1.Start()
         player2.Start() 
     }
-
 }
+
+class Direction {
+    constructor(){
+        this.top = 0
+        this.left = 0
+    }
+    getNums(direction){
+        switch (direction){
+            case "left":
+                this.top = 0
+                this.left = -1
+                break
+            case "right":
+                this.top = 0
+                this.left = 1
+                break
+            case "up":
+                this.top = -1
+                this.left = 0
+                break
+            case "down":
+                this.top = 1
+                this.left = 0
+                break
+        }
+    }
+}
+
+
+
+
 const GRID = document.querySelector("#grid")
 Game.fillGrid()
 const blueBike = document.querySelector('#blue')
@@ -87,8 +122,14 @@ const oranBike = document.querySelector('#orange')
 const player1 = new BlueBiker("blue", blueBike)
 const player2 = new OrangeBiker("oran", oranBike)
 
-
+blueBike.addEventListener("click", ()=>{console.log("your jordans are fake")})
+//keypress vmiért szar
 Game.Start()
+
+
+
+
+
 // class DirectionNums{
 //     show(keycode) {
 //         switch(keycode){
