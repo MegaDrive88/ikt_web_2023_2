@@ -2,7 +2,7 @@ class Biker{
     constructor(color, htmlObj){
         this.color = color
         this.theBikeItself = htmlObj
-        this.theBikeItself.style.top = '267px'
+        this.theBikeItself.style.top = '272px'
         this.top = parseInt(this.theBikeItself.style.top.replace('px', ''))
         this.theBikeItself.style.left = '0px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
@@ -42,30 +42,33 @@ class Biker{
             this.top = parseInt(this.theBikeItself.style.top.replace('px', ''))
             this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
             await Game.delay(10)
-        }//color detectiont majd itt ki kéne kapcsolni        
+        }//color detectiont majd itt ki kéne kapcsolni
     }
     death(){
 
     }
 }
+
 class BlueBiker extends Biker{
     // turn = function(){
         
     // } ez az override
     async Start(){
-        this.theBikeItself.style.left = '60px'
+        this.theBikeItself.style.left = '44px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
         // await player1.jump("left")
         player1.turbo("right")
     }
 }
+
 class OrangeBiker extends Biker{
     async Start(){
-        this.theBikeItself.style.left = '460px'
+        this.theBikeItself.style.left = '500px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
         player2.turbo("left")
     }
 }
+
 class Game{
     static fillGrid(){
         for(let i = 0; i < 121; i++){
@@ -77,11 +80,11 @@ class Game{
     static delay(milliseconds) {
         return new Promise(resolve => {
             setTimeout(resolve, milliseconds)
-        });
+        })
     }
     static async Start(){
         player1.Start()
-        player2.Start() 
+        player2.Start()
     }
 }
 
@@ -112,7 +115,28 @@ class Direction {
     }
 }
 
-
+// var sound = new Audio('sound/sound0.mp3')
+// sound.play()
+class PlayAudio{
+    constructor(soundFile){
+        this.sound = new Audio(soundFile)
+    }
+    async PlayMusic(){
+        this.sound.play()
+    }
+    async StopMusic(){
+        this.sound.pause()
+    }
+}
+const music = new PlayAudio("sound/sound0.mp3")
+addEventListener("keydown", (event) => {
+    if (event.isComposing || event.keyCode === 77){
+        music.PlayMusic()
+    }
+    if (event.isComposing || event.keyCode === 78){
+        music.StopMusic()
+    }
+});
 
 
 const GRID = document.querySelector("#grid")
@@ -124,6 +148,8 @@ const player2 = new OrangeBiker("oran", oranBike)
 
 blueBike.addEventListener("click", ()=>{console.log("your jordans are fake")})
 //keypress vmiért szar
+
+
 Game.Start()
 
 
