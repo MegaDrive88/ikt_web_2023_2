@@ -15,6 +15,7 @@ class Biker{
         div.classList.add("trail")
         this.theBikeItself.style.top = this.top + 5*d.top + 'px'
         this.theBikeItself.style.left = this.left + 5*d.left + 'px'
+        this.theBikeItself.style.rotate = 90*d.rotate + 'deg'
         this.top = parseInt(this.theBikeItself.style.top.replace('px', ''))
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
         div.style.top = this.top + 'px'
@@ -25,7 +26,7 @@ class Biker{
         
     }
     async move(direction){
-        while (true){
+        while (this.left <= 495 && this.left >= 0){
             this.leaveMark(direction)
             await Game.delay(25)
         }
@@ -54,10 +55,10 @@ class BlueBiker extends Biker{
         
     // } ez az override
     async Start(){
-        this.theBikeItself.style.left = '44px'
+        this.theBikeItself.style.left = '80px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
         // await player1.jump("left")
-        player1.turbo("right")
+        player1.move("right")
     }
 }
 
@@ -65,7 +66,7 @@ class OrangeBiker extends Biker{
     async Start(){
         this.theBikeItself.style.left = '500px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
-        player2.turbo("left")
+        // player2.move("left")
     }
 }
 
@@ -92,24 +93,24 @@ class Direction {
     constructor(){
         this.top = 0
         this.left = 0
+        this.rotate = 0
     }
     getNums(direction){
         switch (direction){
             case "left":
-                this.top = 0
                 this.left = -1
+                this.rotate = 3
                 break
             case "right":
-                this.top = 0
                 this.left = 1
+                this.rotate = 1
                 break
             case "up":
                 this.top = -1
-                this.left = 0
                 break
             case "down":
                 this.top = 1
-                this.left = 0
+                this.rotate = 2
                 break
         }
     }
@@ -146,10 +147,16 @@ const oranBike = document.querySelector('#orange')
 const player1 = new BlueBiker("blue", blueBike)
 const player2 = new OrangeBiker("oran", oranBike)
 
-blueBike.addEventListener("click", ()=>{console.log("your jordans are fake")})
-//keypress vmiért szar
+document.addEventListener("keypress", (e)=>{
+    blue_dir = "n--as in paris"
+    orange_dir = "n--as in paris"
+    switch(e.key){
+        //basically mindent ide!!!!!
+        case 'w':
+        case 'W':
 
-
+    }
+})
 Game.Start()
 
 
@@ -196,3 +203,32 @@ Game.Start()
 //     };
 //   };
 // getImageData(x, y, 1, 1).data
+
+// (function() {
+//     document.onmousemove = handleMouseMove;
+//     function handleMouseMove(event) {
+//         var eventDoc, doc, body;
+
+//         event = event || window.event; // IE-ism
+
+//         // If pageX/Y aren't available and clientX/Y are,
+//         // calculate pageX/Y - logic taken from jQuery.
+//         // (This is to support old IE)
+//         if (event.pageX == null && event.clientX != null) {
+//             eventDoc = (event.target && event.target.ownerDocument) || document;
+//             doc = eventDoc.documentElement;
+//             body = eventDoc.body;
+
+//             event.pageX = event.clientX +
+//               (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
+//               (doc && doc.clientLeft || body && body.clientLeft || 0);
+//             event.pageY = event.clientY +
+//               (doc && doc.scrollTop  || body && body.scrollTop  || 0) -
+//               (doc && doc.clientTop  || body && body.clientTop  || 0 );
+//         }
+
+//         // Use event.pageX / event.pageY here
+//         console.log(event.pageX)
+//         console.log(event.pageY)
+//     }
+// })();
