@@ -52,6 +52,7 @@ class Biker{
 
     }
 }
+
 class BlueBiker extends Biker{
     super(){
         this.dir = "right"
@@ -62,6 +63,7 @@ class BlueBiker extends Biker{
         player1.move("right")
     }
 }
+
 class OrangeBiker extends Biker{
     super(){
         this.dir = "left"
@@ -72,6 +74,7 @@ class OrangeBiker extends Biker{
         // player2.move("left")
     }
 }
+
 class Game{
     static fillGrid(){
         for(let i = 0; i < 121; i++){
@@ -83,11 +86,11 @@ class Game{
     static delay(milliseconds) {
         return new Promise(resolve => {
             setTimeout(resolve, milliseconds)
-        });
+        })
     }
     static async Start(){
         player1.Start()
-        player2.Start() 
+        player2.Start()
     }
 }
 
@@ -119,7 +122,28 @@ class Direction {
     }
 }
 
-
+// var sound = new Audio('sound/sound0.mp3')
+// sound.play()
+class PlayAudio{
+    constructor(soundFile){
+        this.sound = new Audio(soundFile)
+    }
+    async PlayMusic(){
+        this.sound.play()
+    }
+    async StopMusic(){
+        this.sound.pause()
+    }
+}
+const music = new PlayAudio("sound/sound0.mp3")
+addEventListener("keydown", (event) => {
+    if (event.isComposing || event.keyCode === 77){
+        music.PlayMusic()
+    }
+    if (event.isComposing || event.keyCode === 78){
+        music.StopMusic()
+    }
+});
 
 
 const GRID = document.querySelector("#grid")
