@@ -1,7 +1,7 @@
 import Game from "./Game.js"
 import Direction from "./DirectionSwitch.js"
 class Biker{
-    constructor(color, htmlObj){
+    constructor(color, htmlObj, turboBar){
         this.color = color
         this.theBikeItself = htmlObj
         this.theBikeItself.style.top = '272px'
@@ -16,6 +16,7 @@ class Biker{
         }
         this.turboCount = 3
         this.wrecked = false
+        this.turboBar = turboBar
     }
     leaveMark(direction){
         let d = new Direction()
@@ -35,7 +36,10 @@ class Biker{
     }
     async jump(direction){
         for(let i = 0; i < 10; i++){
-            this.theBikeItself.style.top = this.top + 5 + 'px'
+            let d = new Direction()
+            d.getNums(direction)
+            this.theBikeItself.style.top = this.top + 5*d.top + 'px'
+            this.theBikeItself.style.left = this.left + 5*d.left + 'px'
             this.top = parseInt(this.theBikeItself.style.top.replace('px', ''))
             this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
             await Game.delay(10)

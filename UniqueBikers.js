@@ -2,6 +2,8 @@ import Biker from "./Biker.js"
 import Game from "./Game.js"
 class BlueBiker extends Biker{
     async Start(){
+        this.turboCount = 3
+        this.turboBar.innerText = "███"
         this.wrecked = false
         this.theBikeItself.style.left = '80px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
@@ -28,6 +30,8 @@ class BlueBiker extends Biker{
 
 class OrangeBiker extends Biker{
     async Start(){
+        this.turboCount = 3
+        this.turboBar.innerText = "███"
         this.wrecked = false
         this.theBikeItself.style.left = '465px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))

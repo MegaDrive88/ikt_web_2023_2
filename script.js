@@ -4,14 +4,16 @@ import { BlueBiker, OrangeBiker } from "./UniqueBikers.js"
 Game.fillGrid()
 const blueBike = document.querySelector('#blue')
 const oranBike = document.querySelector('#orange')
-const player1 = new BlueBiker("blue", blueBike)
-const player2 = new OrangeBiker("oran", oranBike)
+const blueTurboBar = document.querySelector("#blueTurbo")
+const oranTurboBar = document.querySelector("#oranTurbo")
+const player1 = new BlueBiker("blue", blueBike, blueTurboBar)
+const player2 = new OrangeBiker("oran", oranBike, oranTurboBar)
 Game.Start(player1, player2)
 let blue_dir = "right"
 let orange_dir = "left"
 let bVert = false
 let oVert = false
-// kék
+// Blue
 document.addEventListener("keypress", (e)=>{
     player1.turn()
     player1.stopDir[blue_dir] = true
@@ -54,14 +56,31 @@ document.addEventListener("keypress", (e)=>{
             break
         case 'e':
         case 'E':
-            player1.move(blue_dir, 2)
+            if (player1.turboCount > 0){
+                player1.move(blue_dir, 2)
+                player1.stopDir[blue_dir] = false
+                player1.turboCount--
+                player1.turboBar.innerText = "█".repeat(player1.turboCount)
+            }
+            else{
+                player1.stopDir[blue_dir] = false
+                return
+            }
+            break
+        case 'q':
+        case 'Q':
+            player1.stopDir[blue_dir] = false
+            player1.jump(blue_dir)
+            //leave mark param?
+            return
+            // break
         default:
             player1.stopDir[blue_dir] = false
             return
     }
     player1.move(blue_dir, 1)
 })
-//narancs
+// Orange
 document.addEventListener("keypress", (e)=>{
     player2.turn()
     player2.stopDir[orange_dir] = true
@@ -104,7 +123,17 @@ document.addEventListener("keypress", (e)=>{
             break
         case 'o':
         case 'O':
-            player2.move(orange_dir, 2)
+            if (player2.turboCount > 0){
+                player2.move(orange_dir, 2)
+                player2.stopDir[orange_dir] = false
+                player2.turboCount--
+                player2.turboBar.innerText = "█".repeat(player2.turboCount)
+            }
+            else{
+                player2.stopDir[orange_dir] = false
+                return
+            }
+            break
         default:
             player2.stopDir[orange_dir] = false
             return
@@ -114,6 +143,25 @@ document.addEventListener("keypress", (e)=>{
 })
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// https://stackoverflow.com/questions/50378855/how-to-detect-if-two-divs-are-touching-collision-detection
+
+// document.onkeydown = function (e) {
+//     return false;
+// } 
 
 // egér pozi
 // (function() {
