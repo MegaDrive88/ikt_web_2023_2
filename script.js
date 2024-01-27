@@ -26,9 +26,12 @@ class Biker{
         
     }
     async move(direction){
-        while (this.left <= 495 && this.left >= 0){
+        while (this.left <= 520 && this.left >= 30){
             this.leaveMark(direction)
             await Game.delay(25)
+            if (stopDir[direction]) {
+                return
+            }
         }
     }
     async turbo(direction){
@@ -43,26 +46,28 @@ class Biker{
             this.top = parseInt(this.theBikeItself.style.top.replace('px', ''))
             this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
             await Game.delay(10)
-        }//color detectiont majd itt ki kéne kapcsolni        
+        }//halált majd itt ki kéne kapcsolni        
     }
     death(){
 
     }
 }
 class BlueBiker extends Biker{
-    // turn = function(){
-        
-    // } ez az override
+    super(){
+        this.dir = "right"
+    }
     async Start(){
         this.theBikeItself.style.left = '80px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
-        // await player1.jump("left")
         player1.move("right")
     }
 }
 class OrangeBiker extends Biker{
+    super(){
+        this.dir = "left"
+    }
     async Start(){
-        this.theBikeItself.style.left = '460px'
+        this.theBikeItself.style.left = '465px'
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
         // player2.move("left")
     }
@@ -91,6 +96,7 @@ class Direction {
         this.top = 0
         this.left = 0
         this.rotate = 0
+        this.transform = ""
     }
     getNums(direction){
         switch (direction){
@@ -122,19 +128,51 @@ const blueBike = document.querySelector('#blue')
 const oranBike = document.querySelector('#orange')
 const player1 = new BlueBiker("blue", blueBike)
 const player2 = new OrangeBiker("oran", oranBike)
-
+const abortController = new AbortController() // asynceket megoli
+Game.Start()
+//GLOBALS
+let stopDir = {
+    "left" : false,
+    "up" : false,
+    "down" : false,
+    "right" : false
+}
+let blue_dir = "right"
+let orange_dir = "left"
+//
 document.addEventListener("keypress", (e)=>{
-    blue_dir = "n--as in paris"
-    orange_dir = "n--as in paris"
+    turn()
+    stopDir[blue_dir] = true
     switch(e.key){
-        //basically mindent ide!!!!!
         case 'w':
         case 'W':
+            blue_dir = "up"
+            break
+        case 'd':
+        case 'D':
+            blue_dir = "right"
+            break
+        case 'a':
+        case 'A':
+            blue_dir = "left"
+            break
+        case 's':
+        case 'S':
+            blue_dir = "down"
+            break
 
     }
-})
-Game.Start()
+    player1.move(blue_dir)
 
+})
+function turn(){
+    stopDir = {
+        "left" : false,
+        "up" : false,
+        "down" : false,
+        "right" : false
+    }
+}
 
 
 
@@ -162,24 +200,7 @@ Game.Start()
 //     }
 // }
 
-//cols: Width of the image representing total number of columns
-//x: Row position of this pixel
-//y: Column position of this pixel
-// const extractPixelColor = (cols, x, y) => {
-//     //To get the exact pixel, the logic is to multiply total columns in this image with the row position of this pixel and then add the column position of this pixed
-//     let pixel = cols * x + y;
-//     //To get the array position in the entire image data array, simply multiply your pixel position by 4 (since each pixel will have its own r,g,b,a in that order)
-//     let position = pixel * 4;
-//     //the rgba value of current pixel will be the following
-//     return {
-//       red: data[position],
-//       green: data[position + 1],
-//       blue: data[position + 2],
-//       alpha: data[position + 3],
-//     };
-//   };
-// getImageData(x, y, 1, 1).data
-
+// egér pozi
 // (function() {
 //     document.onmousemove = handleMouseMove;
 //     function handleMouseMove(event) {
@@ -208,3 +229,17 @@ Game.Start()
 //         console.log(event.pageY)
 //     }
 // })();
+
+
+// function myKeyPress(e){
+//     var keynum;
+  
+//     if(window.event) { // IE                  
+//       keynum = e.keyCode;
+//     } else if(e.which){ // Netscape/Firefox/Opera                 
+//       keynum = e.which;
+//     }
+  
+//     alert(String.fromCharCode(keynum));
+// }
+// <input type="text" onkeypress="return myKeyPress(event)">
