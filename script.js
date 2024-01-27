@@ -9,27 +9,48 @@ const player2 = new OrangeBiker("oran", oranBike)
 Game.Start(player1, player2)
 let blue_dir = "right"
 let orange_dir = "left"
+let bVert = false
+let oVert = false
 // kék
 document.addEventListener("keypress", (e)=>{
     player1.turn()
     player1.stopDir[blue_dir] = true
     switch(e.key){
-        // bal bal jobb jobb kurva
         case 'w':
         case 'W':
-            blue_dir = "up"
+            if(!bVert) blue_dir = "up"
+            else {
+                player1.stopDir[blue_dir] = false
+                return
+            }
+            bVert = true
             break
         case 'd':
         case 'D':
-            blue_dir = "right"
+            if(bVert) blue_dir = "right"
+            else {
+                player1.stopDir[blue_dir] = false
+                return
+            }
+            bVert = false
             break
         case 'a':
         case 'A':
-            blue_dir = "left"
+            if(bVert) blue_dir = "left"
+            else {
+                player1.stopDir[blue_dir] = false
+                return
+            }
+            bVert = false
             break
         case 's':
         case 'S':
-            blue_dir = "down"
+            if(!bVert) blue_dir = "down"
+            else {
+                player1.stopDir[blue_dir] = false
+                return
+            }
+            bVert = true
             break
         case 'e':
         case 'E':
@@ -47,19 +68,39 @@ document.addEventListener("keypress", (e)=>{
     switch(e.key){
         case 'i':
         case 'I':
-            orange_dir = "up"
+            if(!oVert) orange_dir = "up"
+            else {
+                player2.stopDir[orange_dir] = false
+                return
+            }
+            oVert = true
             break
         case 'l':
         case 'L':
-            orange_dir = "right"
+            if(oVert) orange_dir = "right"
+            else {
+                player2.stopDir[orange_dir] = false
+                return
+            }
+            oVert = false
             break
         case 'j':
         case 'J':
-            orange_dir = "left"
+            if(oVert) orange_dir = "left"
+            else {
+                player2.stopDir[orange_dir] = false
+                return
+            }
+            oVert = false
             break
         case 'k':
         case 'K':
-            orange_dir = "down"
+            if(!oVert) orange_dir = "down"
+            else {
+                player2.stopDir[orange_dir] = false
+                return
+            }
+            oVert = true
             break
         case 'o':
         case 'O':
@@ -103,17 +144,3 @@ document.addEventListener("keypress", (e)=>{
 //         console.log(event.pageY)
 //     }
 // })();
-
-
-// function myKeyPress(e){
-//     var keynum;
-  
-//     if(window.event) { // IE                  
-//       keynum = e.keyCode;
-//     } else if(e.which){ // Netscape/Firefox/Opera                 
-//       keynum = e.which;
-//     }
-  
-//     alert(String.fromCharCode(keynum));
-// }
-// <input type="text" onkeypress="return myKeyPress(event)">
