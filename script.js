@@ -1,20 +1,5 @@
 import Game from "./Game.js"
-import Biker from "./Biker.js"
-class BlueBiker extends Biker{
-    async Start(){
-        this.theBikeItself.style.left = '80px'
-        this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
-        this.move("right")
-    }
-}
-
-class OrangeBiker extends Biker{
-    async Start(){
-        this.theBikeItself.style.left = '465px'
-        this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
-        // this.move("left")
-    }
-}
+import { BlueBiker, OrangeBiker } from "./UniqueBikers.js"
 
 Game.fillGrid()
 const blueBike = document.querySelector('#blue')
@@ -24,18 +9,11 @@ const player2 = new OrangeBiker("oran", oranBike)
 Game.Start(player1, player2)
 let blue_dir = "right"
 let orange_dir = "left"
+// kék
 document.addEventListener("keypress", (e)=>{
     player1.turn()
     player1.stopDir[blue_dir] = true
     switch(e.key){
-        // case 'w':
-        // case 'W':
-        // case 'd':
-        // case 'D':
-        // case 'a':
-        // case 'A':
-        // case 's':
-        // case 'S':
         // bal bal jobb jobb kurva
         case 'w':
         case 'W':
@@ -53,9 +31,45 @@ document.addEventListener("keypress", (e)=>{
         case 'S':
             blue_dir = "down"
             break
-        // default:
+        case 'e':
+        case 'E':
+            player1.move(blue_dir, 2)
+        default:
+            player1.stopDir[blue_dir] = false
+            return
     }
-    player1.move(blue_dir)
+    player1.move(blue_dir, 1)
+})
+//narancs
+document.addEventListener("keypress", (e)=>{
+    player2.turn()
+    player2.stopDir[orange_dir] = true
+    switch(e.key){
+        case 'i':
+        case 'I':
+            orange_dir = "up"
+            break
+        case 'l':
+        case 'L':
+            orange_dir = "right"
+            break
+        case 'j':
+        case 'J':
+            orange_dir = "left"
+            break
+        case 'k':
+        case 'K':
+            orange_dir = "down"
+            break
+        case 'o':
+        case 'O':
+            player2.move(orange_dir, 2)
+        default:
+            player2.stopDir[orange_dir] = false
+            return
+
+    }
+    player2.move(orange_dir, 1)
 })
 
 

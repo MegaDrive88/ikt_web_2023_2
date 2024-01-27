@@ -14,6 +14,8 @@ class Biker{
             "down" : false,
             "right" : false
         }
+        this.turboCount = 3
+        this.wrecked = false
     }
     leaveMark(direction){
         let d = new Direction()
@@ -31,22 +33,6 @@ class Biker{
         div.style.left = this.left + 'px'
         Game.GRID.appendChild(div)
     }
-    async move(direction){
-        while (this.left <= 520 && this.left >= 30){
-            this.leaveMark(direction)
-            await Game.delay(25)
-            if (this.stopDir[direction]) {
-                return
-            }
-        }
-        alert("bozo")
-    }
-    async turbo(direction){
-        for(let i = 0; i < 20; i++){
-            this.leaveMark(direction)
-            await Game.delay(10)
-        }
-    }
     async jump(direction){
         for(let i = 0; i < 10; i++){
             this.theBikeItself.style.top = this.top + 5 + 'px'
@@ -54,9 +40,6 @@ class Biker{
             this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
             await Game.delay(10)
         }//halált majd itt ki kéne kapcsolni        
-    }
-    death(){
-
     }
     turn(){
         this.stopDir = {
