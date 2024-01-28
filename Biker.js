@@ -17,6 +17,7 @@ class Biker{
         this.turboCount = 3
         this.wrecked = false
         this.turboBar = turboBar
+        this.score = 0
     }
     leaveMark(direction){
         let d = new Direction()
@@ -33,6 +34,20 @@ class Biker{
         div.style.top = this.top + 'px'
         div.style.left = this.left + 'px'
         Game.GRID.appendChild(div)
+    }
+    async move(direction, speed){
+        const sp = [25, 10][speed-1]
+        let i = 0
+        while (this.left <= 520 && this.left >= 30 && this.top >= 25 && this.top <= 525){
+            this.leaveMark(direction)
+            await Game.delay(sp)
+            if (this.stopDir[direction] || (speed == 2 && i >= 15)) {
+                return
+            }
+            i++
+        }
+        this.wrecked = true
+        alert(this.color + " bozo")
     }
     async jump(direction){
         for(let i = 0; i < 10; i++){
@@ -53,5 +68,32 @@ class Biker{
             "right" : false
         }
     }
+    static async turboGen(){
+        while(true){
+            await Game.delay(15000)
+            let x = Game.randint(30, 520)
+            let y = Game.randint(25, 525)
+            while(x == this.left || y == this.top){
+                x = Game.randint(30, 520)
+                y = Game.randint(25, 525)
+            }
+            let lightning = document.createElement("div")
+            lightning.style.top = y + "px"
+            lightning.style.left = x + "px"
+            lightning.className = "lightning"
+            grid.appendChild(lightning)
+        }
+    }
+    async Start(){
+        this.turboCount = 3
+        this.turboBar.innerText = "███"
+        this.wrecked = false
+        this.theBikeItself.style.left = this.color == "blue" ? "80px": "465px"
+        this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
+        this.move(this.color == "blue" ? "right" : "left", 1)
+    }
+    // death(){
+
+    // }
 }
 export default Biker

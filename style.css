@@ -62,3 +62,11 @@ body{
     background-size: 50px;
     z-index: 2;
 }
+.lightning{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    height: 30px;
+    width: 30px;
+    background-image: url("images/villam.png");
+    background-size: 30px;
+}
