@@ -74,6 +74,18 @@ body{
     width: 15px;
     position: absolute;
     height: 15px;
-    /* background-color: red; */
-    z-index: 5;
+}
+.leftHitbox{
+    margin-left: -22px;
+}
+.rightHitbox{
+    margin-left: 11px;
+}
+.upHitbox{
+    margin-top: -15px;
+    margin-left: -5px;
+}
+.downHitbox{
+    margin-top: 15px;
+    margin-left: -5px;
 }

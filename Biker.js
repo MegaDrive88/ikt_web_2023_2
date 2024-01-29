@@ -19,11 +19,13 @@ class Biker{
         this.turboBar = turboBar
         this.score = 0
         this.hitbox = document.createElement('div')
-        this.hitbox.className = this.color + "hitbox"
+        this.hitbox.className = this.color + "Hitbox"
         this.hitbox.classList.add("Hitbox")
         Game.GRID.appendChild(this.hitbox)
     }
     leaveMark(direction){
+        this.hitbox.className = `${this.color + "Hitbox"} Hitbox`
+        this.hitbox.classList.add(direction + "Hitbox")
         let d = new Direction()
         d.getNums(direction)
         const div = document.createElement('div')
@@ -31,7 +33,6 @@ class Biker{
         div.classList.add("trail")
         this.hitbox.style.top = parseInt(this.hitbox.style.top.replace("px", "")) + 5*d.top + 'px'
         this.hitbox.style.left = parseInt(this.hitbox.style.left.replace("px", "")) + 5*d.left + 'px'
-        // this.hitbox.style.transform = d.transform
         this.theBikeItself.style.top = this.top + 5*d.top + 'px'
         this.theBikeItself.style.left = this.left + 5*d.left + 'px'
         this.theBikeItself.style.rotate = 90*d.rotate + 'deg'
@@ -47,6 +48,9 @@ class Biker{
         let i = 0
         while (this.left <= 520 && this.left >= 30 && this.top >= 25 && this.top <= 525){
             if (Biker.checkDeath(this) == this.color) break
+            else if (Biker.checkDeath(this) == this.color + "Turbo") {
+                //turbocharge
+            }
             this.leaveMark(direction)
             await Game.delay(sp)
             if (this.stopDir[direction] || (speed == 2 && i >= 15)) {
@@ -55,14 +59,17 @@ class Biker{
             i++
         }
         this.wrecked = true
-        alert(this.color + " bozo")
-    }
+        alert((this.color == "blue" ? "Orange" : "Blue") + " won the round!")
+        // this.Start()
+    }   
     async jump(direction){
         for(let i = 0; i < 10; i++){
             let d = new Direction()
             d.getNums(direction)
             this.theBikeItself.style.top = this.top + 5*d.top + 'px'
             this.theBikeItself.style.left = this.left + 5*d.left + 'px'
+            this.hitbox.style.top = parseInt(this.hitbox.style.top.replace("px", "")) + 5*d.top + 'px'
+            this.hitbox.style.left = parseInt(this.hitbox.style.left.replace("px", "")) + 5*d.left + 'px'
             this.top = parseInt(this.theBikeItself.style.top.replace('px', ''))
             this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
             await Game.delay(10)
@@ -98,7 +105,7 @@ class Biker{
         this.wrecked = false
         this.theBikeItself.style.left = this.color == "blue" ? "80px": "465px"
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
-        this.hitbox.style.left = this.left + (this.color == "blue" ? 11 : -22) + "px"
+        this.hitbox.style.left = this.left + "px"
         this.hitbox.style.top = this.top - 5 + "px"
         this.move(this.color == "blue" ? "right" : "left", 1)
     }
@@ -106,14 +113,13 @@ class Biker{
         let d1 = bike.hitbox.getBoundingClientRect()
         let d2 = b.getBoundingClientRect()
         let ox = Math.abs((d1.x + (bike.color == "blue" ? 15 : 10)) - (d2.x + 2.5)) < ((d1.x + 15) < (d2.x + 2.5) ? d2.width : d1.width);
-        let oy = Math.abs((d1.y + 15) - (d2.y + 2.5)) < (d1.y < d2.y ? d2.height : d1.height);
+        let oy = Math.abs((d1.y + 15) - (d2.y + 2.5)) < ((d1.y + 15) < (d2.y + 2.5) ? d2.height : d1.height);
         return ox && oy;
     }
     static checkDeath(bike){
         let trails = document.querySelectorAll(".trail")
         let lightnings = document.querySelectorAll(".lightning")
         for (let i of trails) {
-            // console.log(Biker.collides(bike.hitbox, i))
             if (Biker.collides(bike, i)) return bike.color
         }
         for (let i of lightnings) {
@@ -121,7 +127,7 @@ class Biker{
         }
         return "semmi"
     }
-    // death(){
+    // static gameOver(){
 
     // }
 }
