@@ -20,10 +20,6 @@ class Biker{
         this.wrecked = false
         this.turboBar = turboBar
         this.score = 0
-        this.hitbox = document.createElement('div')
-        this.hitbox.className = this.color + "Hitbox"
-        this.hitbox.classList.add("Hitbox")
-        Game.GRID.appendChild(this.hitbox)
     }
     leaveMark(direction){
         this.hitbox.className = `${this.color + "Hitbox"} Hitbox`
@@ -70,10 +66,11 @@ class Biker{
         document.querySelectorAll(".lightning").forEach((i)=>{
             Game.GRID.removeChild(i)
         })
+        document.querySelectorAll(".Hitbox").forEach((i)=>{
+            Game.GRID.removeChild(i)
+        })
         document.querySelector(`#${this.color == "blue" ? "oran" : "blue"}score`).innerText = this.score
         // -----
-        p1.theBikeItself.style.top = "272px"
-        p2.theBikeItself.style.top = "272px"
         // let d = new Direction()
         // d.getNums("left")
         // p1.theBikeItself.style.rotate = 90*d.rotate + "deg"
@@ -132,8 +129,13 @@ class Biker{
         this.turboCount = 3
         this.turboBar.innerText = "███"
         this.wrecked = false
+        this.theBikeItself.style.top = "272px"
         this.theBikeItself.style.left = this.color == "blue" ? "80px": "465px"
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
+        this.hitbox = document.createElement('div')
+        this.hitbox.className = this.color + "Hitbox"
+        this.hitbox.classList.add("Hitbox")
+        Game.GRID.appendChild(this.hitbox)
         this.hitbox.style.left = this.left + "px"
         this.hitbox.style.top = this.top - 5 + "px"
         if(move) this.move(this.color == "blue" ? "right" : "left", 1, player1, player2)

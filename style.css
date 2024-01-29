@@ -74,6 +74,8 @@ body{
     width: 15px;
     position: absolute;
     height: 15px;
+    /* background-color: red;
+    z-index: 4; */
 }
 .leftHitbox{
     margin-left: -22px;
