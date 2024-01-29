@@ -1,5 +1,6 @@
 import Game from "./Game.js"
 import Direction from "./DirectionSwitch.js"
+import PlayAudio from "./Audio.js"
 class Biker{
     constructor(color, htmlObj, turboBar){
         this.color = color
@@ -58,6 +59,7 @@ class Biker{
             }
             i++
         }
+        new PlayAudio("./sound/deathSound.mp3").PlayMusic()
         this.wrecked = true
         alert((this.color == "blue" ? "Orange" : "Blue") + " won the round!")
         // this.Start()
