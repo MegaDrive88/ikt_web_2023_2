@@ -18,6 +18,10 @@ class Biker{
         this.wrecked = false
         this.turboBar = turboBar
         this.score = 0
+        this.hitbox = document.createElement('div')
+        this.hitbox.className = this.color + "hitbox"
+        this.hitbox.classList.add("Hitbox")
+        Game.GRID.appendChild(this.hitbox)
     }
     leaveMark(direction){
         let d = new Direction()
@@ -25,7 +29,9 @@ class Biker{
         const div = document.createElement('div')
         div.className = this.color + 'Trail'
         div.classList.add("trail")
-        div.classList.add("underBike") // 150ms utan remove kéne
+        this.hitbox.style.top = parseInt(this.hitbox.style.top.replace("px", "")) + 5*d.top + 'px'
+        this.hitbox.style.left = parseInt(this.hitbox.style.left.replace("px", "")) + 5*d.left + 'px'
+        // this.hitbox.style.transform = d.transform
         this.theBikeItself.style.top = this.top + 5*d.top + 'px'
         this.theBikeItself.style.left = this.left + 5*d.left + 'px'
         this.theBikeItself.style.rotate = 90*d.rotate + 'deg'
@@ -40,6 +46,7 @@ class Biker{
         const sp = [25, 10][speed-1]
         let i = 0
         while (this.left <= 520 && this.left >= 30 && this.top >= 25 && this.top <= 525){
+            if (Biker.checkDeath(this) == this.color) break
             this.leaveMark(direction)
             await Game.delay(sp)
             if (this.stopDir[direction] || (speed == 2 && i >= 15)) {
@@ -91,34 +98,28 @@ class Biker{
         this.wrecked = false
         this.theBikeItself.style.left = this.color == "blue" ? "80px": "465px"
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
+        this.hitbox.style.left = this.left + (this.color == "blue" ? 11 : -22) + "px"
+        this.hitbox.style.top = this.top - 5 + "px"
         this.move(this.color == "blue" ? "right" : "left", 1)
     }
-    static async collides(a, b) {
-        return (
-            parseInt(a.style.left.replace('px', '')) <= parseInt(b.style.left.replace('px', '')) + parseInt(b.style.width.replace('px', '')) &&
-            parseInt(a.style.left.replace('px', '')) + parseInt(a.style.width.replace('px', '')) >= parseInt(b.style.left.replace('px', '')) &&
-            parseInt(a.style.top.replace('px', '')) + parseInt(a.style.width.replace('px', '')) <= parseInt(b.style.top.replace('px', '')) &&
-            parseInt(a.style.top.replace('px', '')) >= parseInt(b.style.top.replace('px', '')) + parseInt(b.style.width.replace('px', ''))
-        );
+    static collides(bike, b) {
+        let d1 = bike.hitbox.getBoundingClientRect()
+        let d2 = b.getBoundingClientRect()
+        let ox = Math.abs((d1.x + (bike.color == "blue" ? 15 : 10)) - (d2.x + 2.5)) < ((d1.x + 15) < (d2.x + 2.5) ? d2.width : d1.width);
+        let oy = Math.abs((d1.y + 15) - (d2.y + 2.5)) < (d1.y < d2.y ? d2.height : d1.height);
+        return ox && oy;
     }
-    static checkDeath(bike1, bike2){
-        // classname underBike
-        // nem allhat meg
-        while (true){
-            let trails = document.querySelectorAll(".trail")
-            let lightnings = document.querySelectorAll(".lightning")
-            for (let i of trails) {
-                if (!i.classList.contains("underBike") && this.collides(bike1.theBikeItself, i)) return bike1.color
-                
-                // if (this.collides(bike2.theBikeItself, i)) return bike2.color
-            }
-            return "meghalna a chrome"
-            for (let i of lightnings) {
-                if (this.collides(bike1.theBikeItself, i)) return bike1.color + "Turbo"
-                if (this.collides(bike2.theBikeItself, i)) return bike2.color + "Turbo"
-            }
-
+    static checkDeath(bike){
+        let trails = document.querySelectorAll(".trail")
+        let lightnings = document.querySelectorAll(".lightning")
+        for (let i of trails) {
+            // console.log(Biker.collides(bike.hitbox, i))
+            if (Biker.collides(bike, i)) return bike.color
         }
+        for (let i of lightnings) {
+            if (Biker.collides(bike, i)) return bike.color + "Turbo"
+        }
+        return "semmi"
     }
     // death(){
 

@@ -152,7 +152,6 @@ document.addEventListener("keypress", async (e)=>{
     }
     player2.move(orange_dir, 1)
 })
-let worker = new Worker("worker.js")
 
 // pro strat: turn+turbo
 

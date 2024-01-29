@@ -70,3 +70,10 @@ body{
     background-image: url("images/villam.png");
     background-size: 30px;
 }
+.Hitbox{
+    width: 15px;
+    position: absolute;
+    height: 15px;
+    /* background-color: red; */
+    z-index: 5;
+}
