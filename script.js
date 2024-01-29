@@ -61,7 +61,7 @@ document.addEventListener("keypress", async (e)=>{
                     Biker.turboGen()
                     Game.turboGenNeeded = false
                 }
-                player1.move(blue_dir, 2)
+                player1.move(blue_dir, 2, player1, player2)
                 player1.stopDir[blue_dir] = false
                 player1.turboCount--
                 player1.turboBar.innerText = "█".repeat(player1.turboCount)
@@ -80,7 +80,7 @@ document.addEventListener("keypress", async (e)=>{
             player1.stopDir[blue_dir] = false
             return
     }
-    player1.move(blue_dir, 1)
+    player1.move(blue_dir, 1, player1, player2)
 })
 // Orange
 document.addEventListener("keypress", async (e)=>{
@@ -130,7 +130,7 @@ document.addEventListener("keypress", async (e)=>{
                     Biker.turboGen()
                     Game.turboGenNeeded = false
                 }
-                player2.move(orange_dir, 2)
+                player2.move(orange_dir, 2, player1, player2)
                 player2.stopDir[orange_dir] = false
                 player2.turboCount--
                 player2.turboBar.innerText = "█".repeat(player2.turboCount)
@@ -150,5 +150,6 @@ document.addEventListener("keypress", async (e)=>{
             return
 
     }
-    player2.move(orange_dir, 1)
+    player2.move(orange_dir, 1, player1, player2)
 })
+export {player1, player2}

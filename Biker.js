@@ -1,6 +1,7 @@
 import Game from "./Game.js"
 import Direction from "./DirectionSwitch.js"
 import PlayAudio from "./Audio.js"
+import { player1, player2 } from "./script.js"
 class Biker{
     constructor(color, htmlObj, turboBar){
         this.color = color
@@ -44,7 +45,7 @@ class Biker{
         div.style.left = this.left + 'px'
         Game.GRID.appendChild(div)
     }
-    async move(direction, speed){
+    async move(direction, speed, p1, p2){
         const sp = [25, 10][speed-1]
         let i = 0
         while (this.left <= 520 && this.left >= 30 && this.top >= 25 && this.top <= 525){
@@ -62,7 +63,29 @@ class Biker{
         new PlayAudio("./sound/deathSound.mp3").PlayMusic()
         this.wrecked = true
         alert((this.color == "blue" ? "Orange" : "Blue") + " won the round!")
-        // this.Start()
+        this.score++
+        document.querySelectorAll(".trail").forEach((i)=>{
+            Game.GRID.removeChild(i)
+        })
+        document.querySelectorAll(".lightning").forEach((i)=>{
+            Game.GRID.removeChild(i)
+        })
+        document.querySelector(`#${this.color == "blue" ? "oran" : "blue"}score`).innerText = this.score
+        // -----
+        p1.theBikeItself.style.top = "272px"
+        p2.theBikeItself.style.top = "272px"
+        // let d = new Direction()
+        // d.getNums("left")
+        // p1.theBikeItself.style.rotate = 90*d.rotate + "deg"
+        // p1.theBikeItself.style.transform = d.transform
+        // d.getNums("right") 
+        // p2.theBikeItself.style.rotate = 90*d.rotate + "deg"
+        // p2.theBikeItself.style.transform = d.transform
+        // new object?
+        p1.Start(p1.wrecked)
+        p2.Start(p2.wrecked)
+        await Game.delay(500)
+        return
     }   
     async jump(direction){
         for(let i = 0; i < 10; i++){
@@ -87,6 +110,7 @@ class Biker{
     }
     static async turboGen(){
         while(true){
+            let i = 0
             await Game.delay(15000)
             let x = Game.randint(30, 520)
             let y = Game.randint(25, 525)
@@ -98,10 +122,13 @@ class Biker{
             lightning.style.top = y + "px"
             lightning.style.left = x + "px"
             lightning.className = "lightning"
+            lightning.id = `l${i}`
             grid.appendChild(lightning)
+            i++
         }
     }
-    async Start(){
+    async Start(move = true){
+        console.log("asasafs")
         this.turboCount = 3
         this.turboBar.innerText = "███"
         this.wrecked = false
@@ -109,7 +136,7 @@ class Biker{
         this.left = parseInt(this.theBikeItself.style.left.replace('px', ''))
         this.hitbox.style.left = this.left + "px"
         this.hitbox.style.top = this.top - 5 + "px"
-        this.move(this.color == "blue" ? "right" : "left", 1)
+        if(move) this.move(this.color == "blue" ? "right" : "left", 1, player1, player2)
     }
     static collides(bike, b) {
         let d1 = bike.hitbox.getBoundingClientRect()
@@ -130,7 +157,7 @@ class Biker{
         return "semmi"
     }
     // static gameOver(){
-
+    //     console.log("asd")
     // }
 }
 export default Biker
