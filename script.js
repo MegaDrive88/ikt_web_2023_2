@@ -152,7 +152,7 @@ document.addEventListener("keypress", async (e)=>{
     }
     player2.move(orange_dir, 1)
 })
-
+let worker = new Worker("worker.js")
 
 // pro strat: turn+turbo
 
@@ -167,12 +167,15 @@ document.addEventListener("keypress", async (e)=>{
 
 
 
-
+// https://medium.com/techtrument/multithreading-javascript-46156179cf9a
 // https://stackoverflow.com/questions/50378855/how-to-detect-if-two-divs-are-touching-collision-detection
+
+
+
 
 // document.onkeydown = function (e) {
 //     return false;
-// } 
+// } --> disables input
 
 // egér pozi
 // (function() {

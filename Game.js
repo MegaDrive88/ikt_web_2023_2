@@ -13,9 +13,9 @@ class Game{
             setTimeout(resolve, milliseconds)
         })
     }
-    static async Start(player1, player2){
-        player1.Start()
-        player2.Start()
+    static async Start(...players){
+        players[0].Start()
+        players[1].Start()
     }
     static randint(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min)
