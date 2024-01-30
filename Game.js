@@ -14,6 +14,8 @@ class Game{
         })
     }
     static async Start(...players){
+        document.querySelector("#bluescore").innerText = localStorage.getItem(`${players[0].color} score`)
+        document.querySelector("#oranscore").innerText = localStorage.getItem(`${players[1].color} score`)
         players[0].Start()
         players[1].Start()
     }

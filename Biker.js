@@ -41,7 +41,7 @@ class Biker{
         div.style.left = this.left + 'px'
         Game.GRID.appendChild(div)
     }
-    async move(direction, speed, p1, p2){
+    async move(direction, speed){
         const sp = [25, 10][speed-1]
         let i = 0
         while (this.left <= 520 && this.left >= 30 && this.top >= 25 && this.top <= 525){
@@ -59,7 +59,14 @@ class Biker{
         new PlayAudio("./sound/deathSound.mp3").PlayMusic()
         this.wrecked = true
         alert((this.color == "blue" ? "Orange" : "Blue") + " won the round!")
+        try {
+            this.score = localStorage.getItem(`${this.color == "blue" ? "oran" : "blue"} score`)
+        } catch (error) {
+            localStorage.setItem(`${this.color == "blue" ? "oran" : "blue"} score`, 0)
+            this.score = localStorage.getItem(`${this.color == "blue" ? "oran" : "blue"} score`)
+        }
         this.score++
+        localStorage.setItem(`${this.color == "blue" ? "oran" : "blue"} score`, this.score)
         document.querySelectorAll(".trail").forEach((i)=>{
             Game.GRID.removeChild(i)
         })
@@ -70,17 +77,7 @@ class Biker{
             Game.GRID.removeChild(i)
         })
         document.querySelector(`#${this.color == "blue" ? "oran" : "blue"}score`).innerText = this.score
-        // -----
-        // let d = new Direction()
-        // d.getNums("left")
-        // p1.theBikeItself.style.rotate = 90*d.rotate + "deg"
-        // p1.theBikeItself.style.transform = d.transform
-        // d.getNums("right") 
-        // p2.theBikeItself.style.rotate = 90*d.rotate + "deg"
-        // p2.theBikeItself.style.transform = d.transform
-        // new object?
-        p1.Start(p1.wrecked)
-        p2.Start(p2.wrecked)
+        location.reload();
         await Game.delay(500)
         return
     }   
@@ -125,7 +122,6 @@ class Biker{
         }
     }
     async Start(move = true){
-        console.log("asasafs")
         this.turboCount = 3
         this.turboBar.innerText = "███"
         this.wrecked = false
@@ -158,8 +154,5 @@ class Biker{
         }
         return "semmi"
     }
-    // static gameOver(){
-    //     console.log("asd")
-    // }
 }
 export default Biker

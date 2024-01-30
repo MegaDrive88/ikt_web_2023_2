@@ -3,7 +3,7 @@ import Game from "./Game.js"
 
 Game.fillGrid()
 const blueBike = document.querySelector('#blue')
-const oranBike = document.querySelector('#orange')
+const oranBike = document.querySelector('#oran')
 const blueTurboBar = document.querySelector("#blueTurbo")
 const oranTurboBar = document.querySelector("#oranTurbo")
 const player1 = new Biker("blue", blueBike, blueTurboBar)
