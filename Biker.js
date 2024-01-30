@@ -46,8 +46,12 @@ class Biker{
         let i = 0
         while (this.left <= 520 && this.left >= 30 && this.top >= 25 && this.top <= 525){
             if (Biker.checkDeath(this) == this.color) break
-            else if (Biker.checkDeath(this) == this.color + "Turbo") {
-                //turbocharge
+            else if (Biker.checkDeath(this).split(" ")[0] == this.color + "Turbo") {
+                if(this.turboCount < 3) {
+                    this.turboCount++
+                    this.turboBar.innerText = "█".repeat(this.turboCount)
+                }
+                Game.GRID.removeChild(document.querySelector(`#${Biker.checkDeath(this).split(" ")[1]}`))
             }
             this.leaveMark(direction)
             await Game.delay(sp)
@@ -67,19 +71,8 @@ class Biker{
         }
         this.score++
         localStorage.setItem(`${this.color == "blue" ? "oran" : "blue"} score`, this.score)
-        document.querySelectorAll(".trail").forEach((i)=>{
-            Game.GRID.removeChild(i)
-        })
-        document.querySelectorAll(".lightning").forEach((i)=>{
-            Game.GRID.removeChild(i)
-        })
-        document.querySelectorAll(".Hitbox").forEach((i)=>{
-            Game.GRID.removeChild(i)
-        })
         document.querySelector(`#${this.color == "blue" ? "oran" : "blue"}score`).innerText = this.score
         location.reload();
-        await Game.delay(500)
-        return
     }   
     async jump(direction){
         for(let i = 0; i < 10; i++){
@@ -150,7 +143,7 @@ class Biker{
             if (Biker.collides(bike, i)) return bike.color
         }
         for (let i of lightnings) {
-            if (Biker.collides(bike, i)) return bike.color + "Turbo"
+            if (Biker.collides(bike, i)) return bike.color + "Turbo " + i.id
         }
         return "semmi"
     }
