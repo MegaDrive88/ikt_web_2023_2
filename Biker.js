@@ -114,7 +114,7 @@ class Biker{
             i++
         }
     }
-    async Start(move = true){
+    async Start(){
         this.turboCount = 3
         this.turboBar.innerText = "███"
         this.wrecked = false
@@ -127,7 +127,7 @@ class Biker{
         Game.GRID.appendChild(this.hitbox)
         this.hitbox.style.left = this.left + "px"
         this.hitbox.style.top = this.top - 5 + "px"
-        if(move) this.move(this.color == "blue" ? "right" : "left", 1, player1, player2)
+        this.move(this.color == "blue" ? "right" : "left", 1, player1, player2)
     }
     static collides(bike, b) {
         let d1 = bike.hitbox.getBoundingClientRect()

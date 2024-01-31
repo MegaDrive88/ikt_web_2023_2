@@ -152,4 +152,11 @@ document.addEventListener("keypress", async (e)=>{
     }
     player2.move(orange_dir, 1, player1, player2)
 })
+document.querySelector("#resetBtn").addEventListener("click", ()=>{
+    localStorage.setItem("blue score", 0)
+    localStorage.setItem("oran score", 0)
+    document.querySelector("#bluescore").innerText = localStorage.getItem("blue score")
+    document.querySelector("#oranscore").innerText = localStorage.getItem("oran score")
+    location.reload()
+})
 export {player1, player2}
